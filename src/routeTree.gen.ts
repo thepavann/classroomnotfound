@@ -14,6 +14,7 @@ import { Route as FacultyRouteImport } from './routes/faculty'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as CrsRouteImport } from './routes/crs'
 import { Route as AnnouncementsRouteImport } from './routes/announcements'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TimetableRoute = TimetableRouteImport.update({
@@ -41,6 +42,11 @@ const AnnouncementsRoute = AnnouncementsRouteImport.update({
   path: '/announcements',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -49,6 +55,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/announcements': typeof AnnouncementsRoute
   '/crs': typeof CrsRoute
   '/events': typeof EventsRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/announcements': typeof AnnouncementsRoute
   '/crs': typeof CrsRoute
   '/events': typeof EventsRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/announcements': typeof AnnouncementsRoute
   '/crs': typeof CrsRoute
   '/events': typeof EventsRoute
@@ -76,16 +85,25 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/announcements'
     | '/crs'
     | '/events'
     | '/faculty'
     | '/timetable'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/announcements' | '/crs' | '/events' | '/faculty' | '/timetable'
+  to:
+    | '/'
+    | '/admin'
+    | '/announcements'
+    | '/crs'
+    | '/events'
+    | '/faculty'
+    | '/timetable'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/announcements'
     | '/crs'
     | '/events'
@@ -95,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   AnnouncementsRoute: typeof AnnouncementsRoute
   CrsRoute: typeof CrsRoute
   EventsRoute: typeof EventsRoute
@@ -139,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnnouncementsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -151,6 +177,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   AnnouncementsRoute: AnnouncementsRoute,
   CrsRoute: CrsRoute,
   EventsRoute: EventsRoute,
