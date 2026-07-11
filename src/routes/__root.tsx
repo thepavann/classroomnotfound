@@ -90,10 +90,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "AIML-B Hub — Live Timetable & Class Dashboard" },
       {
         property: "og:description",
-        content: "What class do I have right now? Your class's live timetable, faculty, events and announcements in one clean hub.",
+        content: "AIML-B Hub for Sreenidhi Institute of Technology. See your current class, next class, room, faculty and countdown at a glance — plus faculty, events, announcements and CRs.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "AIML-B Hub — Live Timetable & Class Dashboard" },
+      { name: "twitter:description", content: "AIML-B Hub for Sreenidhi Institute of Technology. See your current class, next class, room, faculty and countdown at a glance — plus faculty, events, announcements and CRs." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/220663ae-4820-41ef-8c77-d3d23c5c569f/id-preview-67c1d044--359b4b50-4393-49a1-9975-468e10991295.lovable.app-1783751706663.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/220663ae-4820-41ef-8c77-d3d23c5c569f/id-preview-67c1d044--359b4b50-4393-49a1-9975-468e10991295.lovable.app-1783751706663.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
