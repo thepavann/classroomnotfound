@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TimetableRouteImport } from './routes/timetable'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as FacultyRouteImport } from './routes/faculty'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as CrsRouteImport } from './routes/crs'
@@ -20,6 +21,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const TimetableRoute = TimetableRouteImport.update({
   id: '/timetable',
   path: '/timetable',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FacultyRoute = FacultyRouteImport.update({
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/crs': typeof CrsRoute
   '/events': typeof EventsRoute
   '/faculty': typeof FacultyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/timetable': typeof TimetableRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/crs': typeof CrsRoute
   '/events': typeof EventsRoute
   '/faculty': typeof FacultyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/timetable': typeof TimetableRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/crs': typeof CrsRoute
   '/events': typeof EventsRoute
   '/faculty': typeof FacultyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/timetable': typeof TimetableRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/crs'
     | '/events'
     | '/faculty'
+    | '/sitemap.xml'
     | '/timetable'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/crs'
     | '/events'
     | '/faculty'
+    | '/sitemap.xml'
     | '/timetable'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/crs'
     | '/events'
     | '/faculty'
+    | '/sitemap.xml'
     | '/timetable'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   CrsRoute: typeof CrsRoute
   EventsRoute: typeof EventsRoute
   FacultyRoute: typeof FacultyRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TimetableRoute: typeof TimetableRoute
 }
 
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/timetable'
       fullPath: '/timetable'
       preLoaderRoute: typeof TimetableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faculty': {
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   CrsRoute: CrsRoute,
   EventsRoute: EventsRoute,
   FacultyRoute: FacultyRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TimetableRoute: TimetableRoute,
 }
 export const routeTree = rootRouteImport
