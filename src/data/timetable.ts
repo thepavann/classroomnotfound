@@ -38,7 +38,6 @@ export const timetableData: TimetableEntry[] = [
   { id: 23, day: "Thursday", period: "V", startTime: "13:10", endTime: "13:55", subject: "Object Oriented Programming through Java", faculty: ["Mr. G. Venkata Kishore"], room: "2212", type: "Theory" },
   { id: 24, day: "Thursday", period: "VI", startTime: "13:55", endTime: "14:40", subject: "Mathematical & Statistical Foundations", faculty: ["Dr. P. Naresh"], room: "2212", type: "Theory" },
   { id: 25, day: "Thursday", period: "VII-VIII", startTime: "14:40", endTime: "16:10", subject: "Sports", faculty: [], room: "Sports Ground", type: "Activity" },
-  { id: 26, day: "Friday", period: "I-IV", startTime: "09:00", endTime: "12:20", subject: "Object Oriented Programming through Java Lab", faculty: ["Mr. G. Venkata Kishore", "Mrs. K. Divyasri"], room: "Lab 5201", type: "Lab" },
   { id: 28, day: "Friday", period: "I", startTime: "09:00", endTime: "09:50", subject: "Mathematical & Statistical Foundations", faculty: [], room: "2212", type: "Theory" },
   { id: 29, day: "Friday", period: "II", startTime: "09:50", endTime: "10:40", subject: "Software Engineering", faculty: [], room: "2212", type: "Theory" },
   { id: 30, day: "Friday", period: "III", startTime: "10:40", endTime: "11:30", subject: "Object Oriented Programming through Java", faculty: [], room: "2212", type: "Theory" },
