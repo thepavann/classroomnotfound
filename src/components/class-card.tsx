@@ -1,10 +1,28 @@
 import { motion } from "framer-motion";
-import { Clock, MapPin, User } from "lucide-react";
+import { Clock, MapPin } from "lucide-react";
 import type { TimetableEntry } from "@/data/timetable";
 import { formatTime12, getClassStatus, humanizeMinutes, toMinutes } from "@/lib/timetable-utils";
 import { TypeBadge } from "@/components/type-badge";
 import { fadeUp } from "@/components/motion";
 import { cn } from "@/lib/utils";
+
+function initials(name: string) {
+  return name
+    .replace(/^(Mr|Mrs|Ms|Dr)\.?\s*/i, "")
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0])
+    .join("")
+    .toUpperCase();
+}
+
+const AVATAR_TINTS = [
+  "bg-primary/10 text-primary",
+  "bg-chart-4/15 text-chart-4",
+  "bg-success/10 text-success",
+  "bg-warning/15 text-warning-foreground dark:text-warning",
+];
 
 export function ClassCard({
   entry,
