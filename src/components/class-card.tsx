@@ -1,10 +1,28 @@
 import { motion } from "framer-motion";
-import { Clock, MapPin, User } from "lucide-react";
+import { Clock, MapPin } from "lucide-react";
 import type { TimetableEntry } from "@/data/timetable";
 import { formatTime12, getClassStatus, humanizeMinutes, toMinutes } from "@/lib/timetable-utils";
 import { TypeBadge } from "@/components/type-badge";
 import { fadeUp } from "@/components/motion";
 import { cn } from "@/lib/utils";
+
+function initials(name: string) {
+  return name
+    .replace(/^(Mr|Mrs|Ms|Dr)\.?\s*/i, "")
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0])
+    .join("")
+    .toUpperCase();
+}
+
+const AVATAR_TINTS = [
+  "bg-primary/10 text-primary",
+  "bg-chart-4/15 text-chart-4",
+  "bg-success/10 text-success",
+  "bg-warning/15 text-warning-foreground dark:text-warning",
+];
 
 export function ClassCard({
   entry,
@@ -42,13 +60,29 @@ export function ClassCard({
 
       <h3 className="mt-3 text-lg font-semibold leading-snug">{entry.subject}</h3>
 
-      <div className="mt-4 space-y-2 text-sm text-muted-foreground">
-        {entry.faculty.length > 0 && (
-          <div className="flex items-start gap-2">
-            <User className="mt-0.5 h-4 w-4 shrink-0" />
-            <span>{entry.faculty.join(", ")}</span>
+      {entry.faculty.length > 0 && (
+        <div className="mt-4 flex items-center gap-3">
+          <div className="flex -space-x-2">
+            {entry.faculty.map((name, i) => (
+              <span
+                key={name}
+                title={name}
+                className={cn(
+                  "grid h-8 w-8 place-items-center rounded-full border-2 border-card text-xs font-semibold",
+                  AVATAR_TINTS[i % AVATAR_TINTS.length],
+                )}
+              >
+                {initials(name)}
+              </span>
+            ))}
           </div>
-        )}
+          <span className="min-w-0 truncate text-sm text-muted-foreground">
+            {entry.faculty.join(", ")}
+          </span>
+        </div>
+      )}
+
+      <div className="mt-4 space-y-2 text-sm text-muted-foreground">
         <div className="flex items-center gap-2">
           <MapPin className="h-4 w-4 shrink-0" />
           <span>{entry.room}</span>
