@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, Navigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
   CalendarDays,
@@ -8,6 +8,7 @@ import {
   UserCog,
   Plus,
   Lock,
+  ShieldAlert,
 } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { fadeUp } from "@/components/motion";
+import { useAuth, ROLE_LABEL } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -26,40 +28,81 @@ export const Route = createFileRoute("/admin")({
     ],
   }),
   component: AdminPage,
+  ssr: false,
 });
 
 function AdminPage() {
-  const notify = () => toast("Connect Lovable Cloud to save changes.");
+  const { loading, isAuthenticated, role, canWrite } = useAuth();
+  const notify = () => toast.success("Saved (demo — wire to database next).");
+
+  if (loading) {
+    return (
+      <div className="mx-auto max-w-6xl px-4 py-16 text-sm text-muted-foreground">Loading…</div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  if (role === "student" || role === null) {
+    return (
+      <PageShell eyebrow="Restricted" title="Admin panel" description="Only Teaching Assistants and Professors can access this page.">
+        <div className="rounded-2xl border border-border bg-card p-8 text-center soft-shadow">
+          <ShieldAlert className="mx-auto h-10 w-10 text-muted-foreground" />
+          <p className="mt-4 text-sm text-muted-foreground">
+            Your role ({role ? ROLE_LABEL[role] : "unassigned"}) doesn't allow editing class data.
+          </p>
+          <Button asChild variant="outline" className="mt-6 rounded-xl">
+            <Link to="/">Back to dashboard</Link>
+          </Button>
+        </div>
+      </PageShell>
+    );
+  }
+
+  const isProf = role === "professor";
+  const defaultTab = isProf ? "timetable" : "announcements";
 
   return (
     <PageShell
       eyebrow="Internal"
       title="Admin panel"
-      description="Manage class data. UI preview — backend not connected yet."
+      description={isProf ? "Manage all class data." : "You can post announcements and events."}
       action={
         <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-muted-foreground">
-          <Lock className="h-3.5 w-3.5" /> Auth not enabled
+          <Lock className="h-3.5 w-3.5" /> {ROLE_LABEL[role]}
         </span>
       }
     >
       <motion.div variants={fadeUp}>
-        <Tabs defaultValue="timetable">
+        <Tabs defaultValue={defaultTab}>
           <TabsList className="mb-6 flex h-auto w-full flex-wrap justify-start gap-1 rounded-2xl bg-muted p-1.5">
-            <TabsTrigger value="timetable" className="rounded-xl">
-              <CalendarDays className="h-4 w-4" /> Timetable
-            </TabsTrigger>
-            <TabsTrigger value="faculty" className="rounded-xl">
-              <Users className="h-4 w-4" /> Faculty
-            </TabsTrigger>
-            <TabsTrigger value="announcements" className="rounded-xl">
-              <Megaphone className="h-4 w-4" /> Announcements
-            </TabsTrigger>
-            <TabsTrigger value="events" className="rounded-xl">
-              <CalendarClock className="h-4 w-4" /> Events
-            </TabsTrigger>
-            <TabsTrigger value="crs" className="rounded-xl">
-              <UserCog className="h-4 w-4" /> CRs
-            </TabsTrigger>
+            {canWrite("timetable") && (
+              <TabsTrigger value="timetable" className="rounded-xl">
+                <CalendarDays className="h-4 w-4" /> Timetable
+              </TabsTrigger>
+            )}
+            {canWrite("faculty") && (
+              <TabsTrigger value="faculty" className="rounded-xl">
+                <Users className="h-4 w-4" /> Faculty
+              </TabsTrigger>
+            )}
+            {canWrite("announcements") && (
+              <TabsTrigger value="announcements" className="rounded-xl">
+                <Megaphone className="h-4 w-4" /> Announcements
+              </TabsTrigger>
+            )}
+            {canWrite("events") && (
+              <TabsTrigger value="events" className="rounded-xl">
+                <CalendarClock className="h-4 w-4" /> Events
+              </TabsTrigger>
+            )}
+            {canWrite("crs") && (
+              <TabsTrigger value="crs" className="rounded-xl">
+                <UserCog className="h-4 w-4" /> CRs
+              </TabsTrigger>
+            )}
           </TabsList>
 
           <TabsContent value="timetable">
