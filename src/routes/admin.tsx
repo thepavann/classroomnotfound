@@ -105,6 +105,7 @@ function AdminPage() {
             )}
           </TabsList>
 
+          {canWrite("timetable") && (
           <TabsContent value="timetable">
             <AdminForm title="Add / update class" onSave={notify}>
               <Field label="Subject" placeholder="Database Management Systems" />
@@ -120,7 +121,9 @@ function AdminPage() {
               <Field label="Type" placeholder="Theory / Lab / Online / Activity" />
             </AdminForm>
           </TabsContent>
+          )}
 
+          {canWrite("faculty") && (
           <TabsContent value="faculty">
             <AdminForm title="Add / update faculty" onSave={notify}>
               <Field label="Name" placeholder="Mrs. K. Beena" />
@@ -136,7 +139,9 @@ function AdminPage() {
               <Field label="Email" placeholder="beena.k@sreenidhi.edu.in" />
             </AdminForm>
           </TabsContent>
+          )}
 
+          {canWrite("announcements") && (
           <TabsContent value="announcements">
             <AdminForm title="Post announcement" onSave={notify}>
               <Field label="Title" placeholder="Lab exam rescheduled" />
@@ -144,7 +149,9 @@ function AdminPage() {
               <Field label="Posted by" placeholder="CR — John Doe" />
             </AdminForm>
           </TabsContent>
+          )}
 
+          {canWrite("events") && (
           <TabsContent value="events">
             <AdminForm title="Create event" onSave={notify}>
               <Field label="Title" placeholder="Hackathon 2026" />
@@ -156,7 +163,9 @@ function AdminPage() {
               <Field label="Poster URL" placeholder="https://…" />
             </AdminForm>
           </TabsContent>
+          )}
 
+          {canWrite("crs") && (
           <TabsContent value="crs">
             <AdminForm title="Add / update CR" onSave={notify}>
               <Field label="Name" placeholder="Jane Doe" />
@@ -169,6 +178,7 @@ function AdminPage() {
               <AreaField label="Responsibilities" placeholder="One per line" />
             </AdminForm>
           </TabsContent>
+          )}
         </Tabs>
       </motion.div>
     </PageShell>
