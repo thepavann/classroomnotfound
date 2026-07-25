@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { GlobalSearch } from "@/components/global-search";
 import { NotificationBell } from "@/components/notification-bell";
+import { UserMenu } from "@/components/user-menu";
 
 const links = [
   { to: "/", label: "Dashboard" },
@@ -62,6 +63,7 @@ export function Navbar() {
           <GlobalSearch />
           <NotificationBell />
           <ThemeToggle />
+          <UserMenu />
           <button
             aria-label="Menu"
             onClick={() => setOpen((o) => !o)}
