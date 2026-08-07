@@ -9,6 +9,7 @@ import {
   formatTime12,
   getClassesForDay,
   getDayName,
+  toMinutes,
 } from "@/lib/timetable-utils";
 import { ClassCard } from "@/components/class-card";
 import { TypeBadge } from "@/components/type-badge";
@@ -23,6 +24,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { fadeUp } from "@/components/motion";
+import { cn } from "@/lib/utils";
+import { Radio, Timer } from "lucide-react";
+import type { DashboardState } from "@/lib/timetable-utils";
 
 export const Route = createFileRoute("/timetable")({
   head: () => ({
@@ -91,6 +95,61 @@ function TimetablePage() {
         </div>
       )}
     </PageShell>
+  );
+}
+
+function NowNextStrip({ state, now }: { state: DashboardState; now: Date }) {
+  const { currentClass, nextClass } = state;
+  const secs = nextClass
+    ? Math.max(
+        0,
+        (toMinutes(nextClass.startTime) - state.nowMinutes) * 60 - now.getSeconds(),
+      )
+    : null;
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  const countdown =
+    secs === null
+      ? null
+      : `${pad(Math.floor(secs / 3600))}:${pad(Math.floor((secs % 3600) / 60))}:${pad(secs % 60)}`;
+
+  return (
+    <motion.div variants={fadeUp} className="grid gap-3 sm:grid-cols-2">
+      <div className="rounded-2xl border border-primary/40 bg-primary/5 p-4 soft-shadow">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-primary">
+          <Radio className="h-3.5 w-3.5" /> Happening now
+        </div>
+        {currentClass ? (
+          <>
+            <p className="mt-2 truncate text-base font-semibold">{currentClass.subject}</p>
+            <p className="text-sm text-muted-foreground">
+              {currentClass.room} · {formatTime12(currentClass.startTime)} –{" "}
+              {formatTime12(currentClass.endTime)}
+            </p>
+          </>
+        ) : (
+          <p className="mt-2 text-sm text-muted-foreground">No class in session right now.</p>
+        )}
+      </div>
+
+      <div className="rounded-2xl border border-border bg-card p-4 soft-shadow">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <Timer className="h-3.5 w-3.5" /> Next class
+        </div>
+        {nextClass ? (
+          <>
+            <p className="mt-2 truncate text-base font-semibold">{nextClass.subject}</p>
+            <p className="text-sm text-muted-foreground">
+              {nextClass.room} · starts at {formatTime12(nextClass.startTime)}
+            </p>
+            <p className="mt-2 font-mono text-lg font-semibold tabular-nums text-primary">
+              {countdown}
+            </p>
+          </>
+        ) : (
+          <p className="mt-2 text-sm text-muted-foreground">That's all for today.</p>
+        )}
+      </div>
+    </motion.div>
   );
 }
 
