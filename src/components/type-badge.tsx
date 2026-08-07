@@ -1,4 +1,4 @@
-import { BookOpen, FlaskConical, Globe, Sparkles } from "lucide-react";
+import { BookOpen, FlaskConical, Globe, Sparkles, Utensils } from "lucide-react";
 import type { ClassType } from "@/data/timetable";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +22,11 @@ const config: Record<ClassType, { label: string; className: string; icon: typeof
     label: "Activity",
     className: "bg-success/10 text-success border-success/20",
     icon: Sparkles,
+  },
+  Break: {
+    label: "Break",
+    className: "bg-muted text-muted-foreground border-border",
+    icon: Utensils,
   },
 };
 
