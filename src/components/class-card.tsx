@@ -96,8 +96,26 @@ export function ClassCard({
       </div>
 
       {isLive && minsLeft !== null && (
-        <div className="mt-4 rounded-xl bg-primary/10 px-3 py-2 text-sm font-medium text-primary">
-          Ends in {humanizeMinutes(minsLeft)}
+        <div className="mt-4 space-y-2 rounded-xl bg-primary/10 px-3 py-2">
+          <p className="text-sm font-medium text-primary">Ends in {humanizeMinutes(minsLeft)}</p>
+          <div className="h-1.5 overflow-hidden rounded-full bg-primary/15">
+            <motion.div
+              className="h-full rounded-full bg-primary"
+              initial={false}
+              animate={{
+                width: `${Math.min(
+                  100,
+                  Math.max(
+                    0,
+                    ((nowMinutes! - toMinutes(entry.startTime)) /
+                      Math.max(1, toMinutes(entry.endTime) - toMinutes(entry.startTime))) *
+                      100,
+                  ),
+                )}%`,
+              }}
+              transition={{ duration: 0.4 }}
+            />
+          </div>
         </div>
       )}
     </motion.div>

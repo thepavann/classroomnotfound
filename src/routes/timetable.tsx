@@ -9,6 +9,7 @@ import {
   formatTime12,
   getClassesForDay,
   getDayName,
+  toMinutes,
 } from "@/lib/timetable-utils";
 import { ClassCard } from "@/components/class-card";
 import { TypeBadge } from "@/components/type-badge";
@@ -23,6 +24,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { fadeUp } from "@/components/motion";
+import { cn } from "@/lib/utils";
+import { Radio, Timer } from "lucide-react";
+import type { DashboardState } from "@/lib/timetable-utils";
 
 export const Route = createFileRoute("/timetable")({
   head: () => ({
@@ -52,10 +56,13 @@ function TimetablePage() {
       action={<WeeklyDialog />}
     >
       {!hydrated ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[0, 1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-52 rounded-2xl" />
-          ))}
+        <div className="space-y-4">
+          <Skeleton className="h-28 rounded-2xl" />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[0, 1, 2, 3].map((i) => (
+              <Skeleton key={i} className="h-52 rounded-2xl" />
+            ))}
+          </div>
         </div>
       ) : state.todayClasses.length === 0 ? (
         <motion.div
@@ -66,13 +73,83 @@ function TimetablePage() {
           <p className="font-medium">No classes scheduled for {day}</p>
         </motion.div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {state.todayClasses.map((c) => (
-            <ClassCard key={c.id} entry={c} nowMinutes={state.nowMinutes} />
-          ))}
+        <div className="space-y-6">
+          <NowNextStrip state={state} now={now} />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {state.todayClasses.map((c) => {
+              const isLive = state.currentClass?.id === c.id;
+              return (
+                <div
+                  key={c.id}
+                  ref={isLive ? undefined : undefined}
+                  className={cn(
+                    "rounded-2xl transition-all",
+                    isLive && "ring-2 ring-primary/50 ring-offset-2 ring-offset-background",
+                  )}
+                >
+                  <ClassCard entry={c} nowMinutes={state.nowMinutes} />
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
     </PageShell>
+  );
+}
+
+function NowNextStrip({ state, now }: { state: DashboardState; now: Date }) {
+  const { currentClass, nextClass } = state;
+  const secs = nextClass
+    ? Math.max(
+        0,
+        (toMinutes(nextClass.startTime) - state.nowMinutes) * 60 - now.getSeconds(),
+      )
+    : null;
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  const countdown =
+    secs === null
+      ? null
+      : `${pad(Math.floor(secs / 3600))}:${pad(Math.floor((secs % 3600) / 60))}:${pad(secs % 60)}`;
+
+  return (
+    <motion.div variants={fadeUp} className="grid gap-3 sm:grid-cols-2">
+      <div className="rounded-2xl border border-primary/40 bg-primary/5 p-4 soft-shadow">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-primary">
+          <Radio className="h-3.5 w-3.5" /> Happening now
+        </div>
+        {currentClass ? (
+          <>
+            <p className="mt-2 truncate text-base font-semibold">{currentClass.subject}</p>
+            <p className="text-sm text-muted-foreground">
+              {currentClass.room} · {formatTime12(currentClass.startTime)} –{" "}
+              {formatTime12(currentClass.endTime)}
+            </p>
+          </>
+        ) : (
+          <p className="mt-2 text-sm text-muted-foreground">No class in session right now.</p>
+        )}
+      </div>
+
+      <div className="rounded-2xl border border-border bg-card p-4 soft-shadow">
+        <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <Timer className="h-3.5 w-3.5" /> Next class
+        </div>
+        {nextClass ? (
+          <>
+            <p className="mt-2 truncate text-base font-semibold">{nextClass.subject}</p>
+            <p className="text-sm text-muted-foreground">
+              {nextClass.room} · starts at {formatTime12(nextClass.startTime)}
+            </p>
+            <p className="mt-2 font-mono text-lg font-semibold tabular-nums text-primary">
+              {countdown}
+            </p>
+          </>
+        ) : (
+          <p className="mt-2 text-sm text-muted-foreground">That's all for today.</p>
+        )}
+      </div>
+    </motion.div>
   );
 }
 
