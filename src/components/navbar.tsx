@@ -60,19 +60,24 @@ export function Navbar() {
           })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2">
           <GlobalSearch />
-          <NotificationBell />
-          <ThemeToggle />
+          <div className="hidden sm:block">
+            <NotificationBell />
+          </div>
+          <div className="hidden sm:block">
+            <ThemeToggle />
+          </div>
           <UserMenu />
           <button
             aria-label="Menu"
             onClick={() => setOpen((o) => !o)}
-            className="grid h-9 w-9 place-items-center rounded-full border border-border bg-card/60 text-muted-foreground lg:hidden"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border bg-card/60 text-muted-foreground lg:hidden"
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
+
       </div>
 
       <AnimatePresence>
