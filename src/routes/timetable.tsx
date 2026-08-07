@@ -52,10 +52,13 @@ function TimetablePage() {
       action={<WeeklyDialog />}
     >
       {!hydrated ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[0, 1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-52 rounded-2xl" />
-          ))}
+        <div className="space-y-4">
+          <Skeleton className="h-28 rounded-2xl" />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[0, 1, 2, 3].map((i) => (
+              <Skeleton key={i} className="h-52 rounded-2xl" />
+            ))}
+          </div>
         </div>
       ) : state.todayClasses.length === 0 ? (
         <motion.div
@@ -66,10 +69,25 @@ function TimetablePage() {
           <p className="font-medium">No classes scheduled for {day}</p>
         </motion.div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {state.todayClasses.map((c) => (
-            <ClassCard key={c.id} entry={c} nowMinutes={state.nowMinutes} />
-          ))}
+        <div className="space-y-6">
+          <NowNextStrip state={state} now={now} />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {state.todayClasses.map((c) => {
+              const isLive = state.currentClass?.id === c.id;
+              return (
+                <div
+                  key={c.id}
+                  ref={isLive ? undefined : undefined}
+                  className={cn(
+                    "rounded-2xl transition-all",
+                    isLive && "ring-2 ring-primary/50 ring-offset-2 ring-offset-background",
+                  )}
+                >
+                  <ClassCard entry={c} nowMinutes={state.nowMinutes} />
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
     </PageShell>
