@@ -23,16 +23,17 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 glass-strong">
-      <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4 sm:px-6">
-        <Link to="/" className="flex shrink-0 items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-2 px-3 sm:gap-4 sm:px-6">
+        <Link to="/" className="flex min-w-0 shrink-0 items-center gap-2">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground shadow-sm">
             <GraduationCap className="h-5 w-5" />
           </span>
-          <span className="flex flex-col leading-none">
-            <span className="text-sm font-bold tracking-tight">AIML-B Hub</span>
-            <span className="text-[10px] text-muted-foreground">Sreenidhi Institute</span>
+          <span className="hidden min-w-0 flex-col leading-none sm:flex">
+            <span className="truncate text-sm font-bold tracking-tight">AIML-B Hub</span>
+            <span className="truncate text-[10px] text-muted-foreground">Sreenidhi Institute</span>
           </span>
         </Link>
+
 
         <nav className="ml-4 hidden items-center gap-1 lg:flex">
           {links.map((l) => {
@@ -59,19 +60,24 @@ export function Navbar() {
           })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2">
           <GlobalSearch />
-          <NotificationBell />
-          <ThemeToggle />
+          <div className="hidden sm:block">
+            <NotificationBell />
+          </div>
+          <div className="hidden sm:block">
+            <ThemeToggle />
+          </div>
           <UserMenu />
           <button
             aria-label="Menu"
             onClick={() => setOpen((o) => !o)}
-            className="grid h-9 w-9 place-items-center rounded-full border border-border bg-card/60 text-muted-foreground lg:hidden"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border bg-card/60 text-muted-foreground lg:hidden"
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
+
       </div>
 
       <AnimatePresence>
@@ -100,7 +106,12 @@ export function Navbar() {
                   </Link>
                 );
               })}
+              <div className="mt-2 flex items-center gap-2 border-t border-border/60 pt-3 sm:hidden">
+                <NotificationBell />
+                <ThemeToggle />
+              </div>
             </div>
+
           </motion.nav>
         )}
       </AnimatePresence>
