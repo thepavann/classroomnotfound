@@ -106,7 +106,12 @@ export function Navbar() {
                   </Link>
                 );
               })}
+              <div className="mt-2 flex items-center gap-2 border-t border-border/60 pt-3 sm:hidden">
+                <NotificationBell />
+                <ThemeToggle />
+              </div>
             </div>
+
           </motion.nav>
         )}
       </AnimatePresence>
