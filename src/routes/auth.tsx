@@ -135,20 +135,10 @@ function SignUpForm() {
         <Label htmlFor="su-pw">Password</Label>
         <Input id="su-pw" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
-      <div className="space-y-2">
-        <Label>Role</Label>
-        <RadioGroup value={role} onValueChange={(v) => setRole(v as AppRole)} className="grid grid-cols-1 gap-2">
-          {(["student", "ta", "professor"] as AppRole[]).map((r) => (
-            <label
-              key={r}
-              className="flex cursor-pointer items-center gap-3 rounded-xl border border-border bg-background px-3 py-2.5 text-sm hover:bg-accent/50"
-            >
-              <RadioGroupItem value={r} />
-              <span className="font-medium">{ROLE_LABEL[r]}</span>
-            </label>
-          ))}
-        </RadioGroup>
-      </div>
+      <p className="rounded-xl border border-border bg-muted/40 px-3 py-2.5 text-xs text-muted-foreground">
+        New accounts start as Student. A professor can upgrade you to Teaching Assistant or Professor.
+      </p>
+
       <Button type="submit" className="w-full" disabled={busy}>
         {busy && <Loader2 className="h-4 w-4 animate-spin" />} Create account
       </Button>
