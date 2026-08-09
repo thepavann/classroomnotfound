@@ -103,7 +103,6 @@ function SignUpForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [role, setRole] = useState<AppRole>("student");
   const [busy, setBusy] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
@@ -114,7 +113,7 @@ function SignUpForm() {
       password,
       options: {
         emailRedirectTo: window.location.origin,
-        data: { display_name: name, role },
+        data: { display_name: name },
       },
     });
     setBusy(false);
