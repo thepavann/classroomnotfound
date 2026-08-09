@@ -94,6 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "AIML-B Hub for Sreenidhi Institute of Technology. See your current class, next class, room, faculty and countdown at a glance — plus faculty, events, announcements and CRs.",
       },
       { property: "og:type", content: "website" },
+      { name: "google-site-verification", content: "IgOKfz0mMRJhtkIZy6q8iJISI4je-ByUx0Bjp7CBbNo" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "AIML-B Hub — Live Timetable & Class Dashboard" },
       { name: "twitter:description", content: "AIML-B Hub for Sreenidhi Institute of Technology. See your current class, next class, room, faculty and countdown at a glance — plus faculty, events, announcements and CRs." },
