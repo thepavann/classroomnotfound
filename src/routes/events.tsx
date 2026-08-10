@@ -11,9 +11,9 @@ import { fadeUp } from "@/components/motion";
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
-      { title: "Events — AIML-B Hub" },
+      { title: "Events — Classmate" },
       { name: "description", content: "Upcoming events, workshops and fests for AIML-B with countdowns and registration." },
-      { property: "og:title", content: "Events — AIML-B Hub" },
+      { property: "og:title", content: "Events — Classmate" },
       { property: "og:description", content: "Upcoming events, workshops and fests for AIML-B." },
     ],
   }),

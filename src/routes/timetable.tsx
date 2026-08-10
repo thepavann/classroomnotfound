@@ -31,9 +31,9 @@ import type { DashboardState } from "@/lib/timetable-utils";
 export const Route = createFileRoute("/timetable")({
   head: () => ({
     meta: [
-      { title: "Timetable — AIML-B Hub" },
+      { title: "Timetable — Classmate" },
       { name: "description", content: "Today's live timetable and full weekly schedule for AIML-B." },
-      { property: "og:title", content: "Timetable — AIML-B Hub" },
+      { property: "og:title", content: "Timetable — Classmate" },
       { property: "og:description", content: "Today's live timetable and full weekly schedule for AIML-B." },
     ],
   }),
