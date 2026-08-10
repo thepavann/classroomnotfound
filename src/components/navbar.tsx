@@ -31,18 +31,19 @@ export function Navbar() {
           <img
             src={logoLight.url}
             alt="Classmate"
-            className="h-7 w-auto sm:h-8 dark:hidden"
-            width={1485}
-            height={304}
+            className="h-8 w-auto sm:h-9 dark:hidden"
+            width={574}
+            height={155}
           />
           <img
             src={logoDark.url}
             alt="Classmate"
-            className="hidden h-9 w-auto sm:h-10 dark:block"
-            width={799}
-            height={210}
+            className="hidden h-8 w-auto sm:h-9 dark:block"
+            width={528}
+            height={135}
           />
         </Link>
+
 
 
 

@@ -10,9 +10,9 @@ import { fadeUp } from "@/components/motion";
 export const Route = createFileRoute("/crs")({
   head: () => ({
     meta: [
-      { title: "Class Representatives — AIML-B Hub" },
+      { title: "Class Representatives — Classmate" },
       { name: "description", content: "Contact your AIML-B class representatives via WhatsApp, call or email." },
-      { property: "og:title", content: "Class Representatives — AIML-B Hub" },
+      { property: "og:title", content: "Class Representatives — Classmate" },
       { property: "og:description", content: "Contact your AIML-B class representatives." },
     ],
   }),

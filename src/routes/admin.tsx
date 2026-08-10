@@ -23,7 +23,7 @@ import { useAuth, ROLE_LABEL } from "@/hooks/use-auth";
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "Admin — AIML-B Hub" },
+      { title: "Admin — Classmate" },
       { name: "robots", content: "noindex" },
     ],
   }),

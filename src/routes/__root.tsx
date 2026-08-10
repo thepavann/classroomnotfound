@@ -81,23 +81,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AIML-B Hub — Live Timetable & Class Dashboard" },
+      { title: "Classmate — Live Timetable & Class Dashboard" },
       {
         name: "description",
         content:
-          "AIML-B Hub for Sreenidhi Institute of Technology. See your current class, next class, room, faculty and countdown at a glance — plus faculty, events, announcements and CRs.",
+          "Classmate for Sreenidhi Institute of Technology. See your current class, next class, room, faculty and countdown at a glance — plus faculty, events, announcements and CRs.",
       },
       { name: "author", content: "AIML-B, Sreenidhi Institute of Technology" },
-      { property: "og:title", content: "AIML-B Hub — Live Timetable & Class Dashboard" },
+      { property: "og:title", content: "Classmate — Live Timetable & Class Dashboard" },
       {
         property: "og:description",
-        content: "AIML-B Hub for Sreenidhi Institute of Technology. See your current class, next class, room, faculty and countdown at a glance — plus faculty, events, announcements and CRs.",
+        content: "Classmate for Sreenidhi Institute of Technology. See your current class, next class, room, faculty and countdown at a glance — plus faculty, events, announcements and CRs.",
       },
       { property: "og:type", content: "website" },
       { name: "google-site-verification", content: "IgOKfz0mMRJhtkIZy6q8iJISI4je-ByUx0Bjp7CBbNo" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "AIML-B Hub — Live Timetable & Class Dashboard" },
-      { name: "twitter:description", content: "AIML-B Hub for Sreenidhi Institute of Technology. See your current class, next class, room, faculty and countdown at a glance — plus faculty, events, announcements and CRs." },
+      { name: "twitter:title", content: "Classmate — Live Timetable & Class Dashboard" },
+      { name: "twitter:description", content: "Classmate for Sreenidhi Institute of Technology. See your current class, next class, room, faculty and countdown at a glance — plus faculty, events, announcements and CRs." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/220663ae-4820-41ef-8c77-d3d23c5c569f/id-preview-67c1d044--359b4b50-4393-49a1-9975-468e10991295.lovable.app-1783751706663.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/220663ae-4820-41ef-8c77-d3d23c5c569f/id-preview-67c1d044--359b4b50-4393-49a1-9975-468e10991295.lovable.app-1783751706663.png" },
     ],
@@ -154,7 +154,7 @@ function RootComponent() {
             </main>
             <footer className="border-t border-border/60 py-8">
               <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 text-center text-sm text-muted-foreground sm:flex-row sm:text-left sm:px-6">
-                <p>AIML-B Hub · Second Year, Semester 1</p>
+                <p>Classmate · Second Year, Semester 1</p>
                 <p>Sreenidhi Institute of Technology · Class AIML-B</p>
               </div>
             </footer>

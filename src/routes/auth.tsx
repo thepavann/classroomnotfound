@@ -14,8 +14,8 @@ import { useAuth } from "@/hooks/use-auth";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — AIML-B Hub" },
-      { name: "description", content: "Sign in to AIML-B Hub for Sreenidhi Institute of Technology." },
+      { title: "Sign in — Classmate" },
+      { name: "description", content: "Sign in to Classmate for Sreenidhi Institute of Technology." },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -38,7 +38,7 @@ function AuthPage() {
         <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
           <GraduationCap className="h-6 w-6" />
         </div>
-        <h1 className="text-2xl font-bold tracking-tight">Welcome to AIML-B Hub</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Welcome to Classmate</h1>
         <p className="mt-1 text-sm text-muted-foreground">Sign in to manage class data</p>
       </motion.div>
 

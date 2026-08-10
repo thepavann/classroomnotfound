@@ -9,9 +9,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/announcements")({
   head: () => ({
     meta: [
-      { title: "Announcements — AIML-B Hub" },
+      { title: "Announcements — Classmate" },
       { name: "description", content: "Latest announcements and notices for AIML-B, newest first with pinned items on top." },
-      { property: "og:title", content: "Announcements — AIML-B Hub" },
+      { property: "og:title", content: "Announcements — Classmate" },
       { property: "og:description", content: "Latest announcements and notices for AIML-B." },
     ],
   }),
