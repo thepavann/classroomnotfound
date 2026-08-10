@@ -153,9 +153,12 @@ function RootComponent() {
               <Outlet />
             </main>
             <footer className="border-t border-border/60 py-8">
-              <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 text-center text-sm text-muted-foreground sm:flex-row sm:text-left sm:px-6">
-                <p>Classmate · Second Year, Semester 1</p>
-                <p>Sreenidhi Institute of Technology · Class AIML-B</p>
+              <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 text-center text-sm text-muted-foreground sm:flex-row sm:justify-between sm:gap-6 sm:px-6 sm:text-left">
+                <Logo className="h-7" />
+                <div className="flex flex-col gap-1 sm:items-end">
+                  <p>Classmate · Second Year, Semester 1</p>
+                  <p>Sreenidhi Institute of Technology · Class AIML-B</p>
+                </div>
               </div>
             </footer>
           </div>
