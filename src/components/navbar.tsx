@@ -38,9 +38,9 @@ export function Navbar() {
           <img
             src={logoDark.url}
             alt="Classmate"
-            className="hidden h-7 w-auto sm:h-8 dark:block"
-            width={1485}
-            height={304}
+            className="hidden h-9 w-auto sm:h-10 dark:block"
+            width={799}
+            height={210}
           />
         </Link>
 
