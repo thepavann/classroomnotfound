@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { GraduationCap, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { Logo } from "@/components/logo";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
@@ -35,8 +36,8 @@ function AuthPage() {
   return (
     <div className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-md flex-col justify-center px-4 py-12">
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mb-8 text-center">
-        <div className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
-          <GraduationCap className="h-6 w-6" />
+        <div className="mb-5 flex justify-center">
+          <Logo className="h-9" />
         </div>
         <h1 className="text-2xl font-bold tracking-tight">Welcome to Classmate</h1>
         <p className="mt-1 text-sm text-muted-foreground">Sign in to manage class data</p>

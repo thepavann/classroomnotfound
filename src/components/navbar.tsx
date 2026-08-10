@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import logoLight from "@/assets/classmate-logo-light.png.asset.json";
-import logoDark from "@/assets/classmate-logo-dark.png.asset.json";
+import { Logo } from "@/components/logo";
 
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -28,20 +27,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border/60 glass-strong">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-2 px-3 sm:gap-4 sm:px-6">
         <Link to="/" className="flex min-w-0 shrink-0 items-center" aria-label="Classmate — home">
-          <img
-            src={logoLight.url}
-            alt="Classmate"
-            className="h-8 w-auto sm:h-9 dark:hidden"
-            width={574}
-            height={155}
-          />
-          <img
-            src={logoDark.url}
-            alt="Classmate"
-            className="hidden h-8 w-auto sm:h-9 dark:block"
-            width={528}
-            height={135}
-          />
+          <Logo className="h-8 sm:h-9" />
         </Link>
 
 
