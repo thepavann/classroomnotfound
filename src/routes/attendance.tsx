@@ -182,7 +182,9 @@ function AttendancePage() {
   const total = overall.total;
   const target = overall.target;
 
-  const error = validationError(attended, total);
+  const untouched = attended === 0 && total === 0;
+  const error = untouched ? null : validationError(attended, total);
+
   const valid = isValid(attended, total);
   const pct = valid ? percent(attended, total) : 0;
   const status = valid ? statusOf(pct, target) : "invalid";
