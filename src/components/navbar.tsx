@@ -65,7 +65,30 @@ export function Navbar() {
               </Link>
             );
           })}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className={cn(
+                  "inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
+                  academicsLinks.some((l) => pathname.startsWith(l.to))
+                    ? "bg-accent text-foreground"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                Academics <ChevronDown className="h-3.5 w-3.5" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="rounded-xl">
+              {academicsLinks.map((l) => (
+                <DropdownMenuItem key={l.to} asChild>
+                  <Link to={l.to}>{l.label}</Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
+
 
         <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2">
           <GlobalSearch />
