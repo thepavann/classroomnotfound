@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "@/components/logo";
 
 import { cn } from "@/lib/utils";
@@ -9,6 +9,12 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { GlobalSearch } from "@/components/global-search";
 import { NotificationBell } from "@/components/notification-bell";
 import { UserMenu } from "@/components/user-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const links = [
   { to: "/", label: "Dashboard" },
@@ -18,6 +24,9 @@ const links = [
   { to: "/announcements", label: "Announcements" },
   { to: "/crs", label: "CRs" },
 ] as const;
+
+const academicsLinks = [{ to: "/attendance", label: "Attendance" }] as const;
+
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
