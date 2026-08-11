@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "@/components/logo";
 
 import { cn } from "@/lib/utils";
@@ -9,6 +9,12 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { GlobalSearch } from "@/components/global-search";
 import { NotificationBell } from "@/components/notification-bell";
 import { UserMenu } from "@/components/user-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const links = [
   { to: "/", label: "Dashboard" },
@@ -18,6 +24,9 @@ const links = [
   { to: "/announcements", label: "Announcements" },
   { to: "/crs", label: "CRs" },
 ] as const;
+
+const academicsLinks = [{ to: "/attendance", label: "Attendance" }] as const;
+
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -56,7 +65,30 @@ export function Navbar() {
               </Link>
             );
           })}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className={cn(
+                  "inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
+                  academicsLinks.some((l) => pathname.startsWith(l.to))
+                    ? "bg-accent text-foreground"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                Academics <ChevronDown className="h-3.5 w-3.5" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="rounded-xl">
+              {academicsLinks.map((l) => (
+                <DropdownMenuItem key={l.to} asChild>
+                  <Link to={l.to}>{l.label}</Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
+
 
         <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2">
           <GlobalSearch />
@@ -104,6 +136,26 @@ export function Navbar() {
                   </Link>
                 );
               })}
+              <p className="mt-2 px-4 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground/70">
+                Academics
+              </p>
+              {academicsLinks.map((l) => {
+                const active = pathname.startsWith(l.to);
+                return (
+                  <Link
+                    key={l.to}
+                    to={l.to}
+                    onClick={() => setOpen(false)}
+                    className={cn(
+                      "rounded-xl px-4 py-2.5 text-sm font-medium transition-colors",
+                      active ? "bg-accent text-foreground" : "text-muted-foreground hover:bg-accent/50",
+                    )}
+                  >
+                    {l.label}
+                  </Link>
+                );
+              })}
+
               <div className="mt-2 flex items-center gap-2 border-t border-border/60 pt-3 sm:hidden">
                 <NotificationBell />
                 <ThemeToggle />
