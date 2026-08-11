@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      attendance_overall: {
+        Row: {
+          attended: number
+          created_at: string
+          target: number
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attended?: number
+          created_at?: string
+          target?: number
+          total?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attended?: number
+          created_at?: string
+          target?: number
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      attendance_subjects: {
+        Row: {
+          attended: number
+          created_at: string
+          id: string
+          name: string
+          target: number
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attended?: number
+          created_at?: string
+          id?: string
+          name: string
+          target?: number
+          total?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attended?: number
+          created_at?: string
+          id?: string
+          name?: string
+          target?: number
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
