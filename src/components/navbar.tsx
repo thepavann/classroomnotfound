@@ -25,7 +25,10 @@ const links = [
   { to: "/crs", label: "CRs" },
 ] as const;
 
-const academicsLinks = [{ to: "/attendance", label: "Attendance" }] as const;
+const academicsLinks = [
+  { to: "/attendance", label: "Attendance" },
+  { to: "/cgpa", label: "CGPA Calculator" },
+] as const;
 
 
 export function Navbar() {
