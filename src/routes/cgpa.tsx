@@ -123,9 +123,10 @@ function GradeSelector({
           >
             {active && (
               <motion.span
-                layoutId={`grade-pill-${g}-${Math.random()}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.18 }}
                 className="absolute inset-0 rounded-xl bg-primary"
-                transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
             )}
             <span className="relative">{g}</span>

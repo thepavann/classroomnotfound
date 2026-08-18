@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as FacultyRouteImport } from './routes/faculty'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as CrsRouteImport } from './routes/crs'
+import { Route as CgpaRouteImport } from './routes/cgpa'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AttendanceRouteImport } from './routes/attendance'
 import { Route as AnnouncementsRouteImport } from './routes/announcements'
@@ -43,6 +44,11 @@ const EventsRoute = EventsRouteImport.update({
 const CrsRoute = CrsRouteImport.update({
   id: '/crs',
   path: '/crs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CgpaRoute = CgpaRouteImport.update({
+  id: '/cgpa',
+  path: '/cgpa',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -77,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/announcements': typeof AnnouncementsRoute
   '/attendance': typeof AttendanceRoute
   '/auth': typeof AuthRoute
+  '/cgpa': typeof CgpaRoute
   '/crs': typeof CrsRoute
   '/events': typeof EventsRoute
   '/faculty': typeof FacultyRoute
@@ -89,6 +96,7 @@ export interface FileRoutesByTo {
   '/announcements': typeof AnnouncementsRoute
   '/attendance': typeof AttendanceRoute
   '/auth': typeof AuthRoute
+  '/cgpa': typeof CgpaRoute
   '/crs': typeof CrsRoute
   '/events': typeof EventsRoute
   '/faculty': typeof FacultyRoute
@@ -102,6 +110,7 @@ export interface FileRoutesById {
   '/announcements': typeof AnnouncementsRoute
   '/attendance': typeof AttendanceRoute
   '/auth': typeof AuthRoute
+  '/cgpa': typeof CgpaRoute
   '/crs': typeof CrsRoute
   '/events': typeof EventsRoute
   '/faculty': typeof FacultyRoute
@@ -116,6 +125,7 @@ export interface FileRouteTypes {
     | '/announcements'
     | '/attendance'
     | '/auth'
+    | '/cgpa'
     | '/crs'
     | '/events'
     | '/faculty'
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/announcements'
     | '/attendance'
     | '/auth'
+    | '/cgpa'
     | '/crs'
     | '/events'
     | '/faculty'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/announcements'
     | '/attendance'
     | '/auth'
+    | '/cgpa'
     | '/crs'
     | '/events'
     | '/faculty'
@@ -153,6 +165,7 @@ export interface RootRouteChildren {
   AnnouncementsRoute: typeof AnnouncementsRoute
   AttendanceRoute: typeof AttendanceRoute
   AuthRoute: typeof AuthRoute
+  CgpaRoute: typeof CgpaRoute
   CrsRoute: typeof CrsRoute
   EventsRoute: typeof EventsRoute
   FacultyRoute: typeof FacultyRoute
@@ -195,6 +208,13 @@ declare module '@tanstack/react-router' {
       path: '/crs'
       fullPath: '/crs'
       preLoaderRoute: typeof CrsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cgpa': {
+      id: '/cgpa'
+      path: '/cgpa'
+      fullPath: '/cgpa'
+      preLoaderRoute: typeof CgpaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -241,6 +261,7 @@ const rootRouteChildren: RootRouteChildren = {
   AnnouncementsRoute: AnnouncementsRoute,
   AttendanceRoute: AttendanceRoute,
   AuthRoute: AuthRoute,
+  CgpaRoute: CgpaRoute,
   CrsRoute: CrsRoute,
   EventsRoute: EventsRoute,
   FacultyRoute: FacultyRoute,
