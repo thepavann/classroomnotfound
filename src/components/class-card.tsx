@@ -40,7 +40,7 @@ export function ClassCard({
     <motion.div
       variants={fadeUp}
       className={cn(
-        "hover-lift rounded-2xl border bg-card p-5 soft-shadow",
+        "hover-lift min-w-0 overflow-hidden rounded-2xl border bg-card p-5 soft-shadow",
         isLive && "border-primary/60 glow-primary",
         isDone && "opacity-55",
         !isLive && !isDone && "border-border",

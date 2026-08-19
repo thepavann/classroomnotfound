@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence, useAnimationControls } from "framer-motion";
-import { Award, Pencil, RotateCcw, Share2, Sparkles, Target } from "lucide-react";
+import { Award, Pencil, RotateCcw, Share2, Sparkles, Target, Trophy } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { fadeUp } from "@/components/motion";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import { GRADE_ORDER, GRADE_POINTS, SEM_1_2, type Grade } from "@/data/grading";
 import {
   LOADER_LINES,
@@ -144,6 +146,9 @@ function CgpaPage() {
   const [loaderLine, setLoaderLine] = useState(LOADER_LINES[0]);
   const [skipAnim, setSkipAnim] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [name, setName] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [savedId, setSavedId] = useState<string | null>(null);
   const revealedFor = useRef<string | null>(null);
   const shake = useAnimationControls();
   const gradesRef = useRef<HTMLDivElement>(null);
@@ -152,9 +157,10 @@ function CgpaPage() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as { grades?: GradeMap; skip?: boolean };
+        const parsed = JSON.parse(raw) as { grades?: GradeMap; skip?: boolean; name?: string };
         if (parsed.grades) setGrades(parsed.grades);
         if (parsed.skip) setSkipAnim(true);
+        if (parsed.name) setName(parsed.name);
       }
     } catch {
       /* ignore */
@@ -163,11 +169,11 @@ function CgpaPage() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ grades, skip: skipAnim }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ grades, skip: skipAnim, name }));
     } catch {
       /* ignore */
     }
-  }, [grades, skipAnim]);
+  }, [grades, skipAnim, name]);
 
   const result = useMemo(() => computeSgpa(sem.courses, grades), [sem.courses, grades]);
   const reaction = reactionFor(result.sgpa);
@@ -229,10 +235,44 @@ function CgpaPage() {
     setGrades({});
     revealedFor.current = null;
     setPhase("idle");
+    setSavedId(null);
     gradesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const shareText = `CLASSMATE\n1-2 SEMESTER\nSGPA ${fmt2(result.sgpa)}\n${reaction.mood.toUpperCase()}\n${sem.totalCredits} Credits`;
+  useEffect(() => {
+    setSavedId(null);
+  }, [signature]);
+
+  const saveToLeaderboard = async () => {
+    const trimmed = name.trim();
+    if (trimmed.length < 2) {
+      toast.error("Add your name first (at least 2 characters)");
+      return;
+    }
+    setSaving(true);
+    const { data: auth } = await supabase.auth.getUser();
+    const { data, error } = await supabase
+      .from("cgpa_results")
+      .insert({
+        name: trimmed,
+        semester: "1-2",
+        sgpa: Number(result.sgpa.toFixed(2)),
+        credits: result.credits,
+        grade_points: Math.round(result.gradePoints * 100) / 100,
+        user_id: auth.user?.id ?? null,
+      })
+      .select("id")
+      .single();
+    setSaving(false);
+    if (error) {
+      toast.error("Couldn't save your result. Try again.");
+      return;
+    }
+    setSavedId(data.id);
+    toast.success("Saved to the leaderboard 🏆");
+  };
+
+  const shareText = `CLASSMATE\n1-2 SEMESTER\n${name.trim() ? `${name.trim().toUpperCase()}\n` : ""}SGPA ${fmt2(result.sgpa)}\n${reaction.mood.toUpperCase()}\n${sem.totalCredits} Credits`;
 
   const share = async () => {
     try {
@@ -255,32 +295,58 @@ function CgpaPage() {
       title="CGPA Calculator"
       description={`${sem.year} · ${sem.semester} · ${sem.totalCredits} credits. Pick a grade for each subject — your SGPA updates instantly.`}
       action={
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button variant="outline" size="sm" onClick={() => setSkipAnim((s) => !s)}>
             {skipAnim ? "Animations off" : "Skip animation"}
           </Button>
           <Button variant="ghost" size="sm" onClick={reset}>
             <RotateCcw className="mr-1.5 h-4 w-4" /> Reset
           </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/leaderboard">
+              <Trophy className="mr-1.5 h-4 w-4" /> Leaderboard
+            </Link>
+          </Button>
         </div>
       }
     >
-      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <motion.div
+        variants={fadeUp}
+        className="mb-6 rounded-2xl border border-border/60 bg-card/60 p-4 sm:p-5"
+      >
+        <label htmlFor="student-name" className="text-sm font-semibold">
+          Your name
+        </label>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Used on your result card and the leaderboard. Optional until you save.
+        </p>
+        <Input
+          id="student-name"
+          value={name}
+          maxLength={40}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="e.g. Pavan"
+          className="mt-3"
+        />
+      </motion.div>
+
+      <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         {/* Subjects */}
         <motion.div
           ref={gradesRef}
           variants={fadeUp}
           className={cn(
-            "rounded-2xl border border-border/60 bg-card/60 p-4 transition-all sm:p-6",
+            "min-w-0 rounded-2xl border border-border/60 bg-card/60 p-4 transition-all sm:p-6",
             phase === "loading" && !skipAnim && "pointer-events-none blur-[2px] opacity-60",
           )}
         >
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-lg font-semibold">Subjects</h2>
             <span className="text-sm text-muted-foreground">
               {result.distribution.reduce((a, d) => a + d.count, 0)}/{sem.courses.length} graded
             </span>
           </div>
+
 
           <div className="divide-y divide-border/60">
             {sem.courses.map((c) => (
@@ -427,6 +493,23 @@ function CgpaPage() {
               <Button className="col-span-2" onClick={() => setShowShare((s) => !s)}>
                 <Share2 className="mr-1.5 h-4 w-4" /> Share Result
               </Button>
+              {savedId ? (
+                <Button variant="outline" className="col-span-2" asChild>
+                  <Link to="/leaderboard">
+                    <Trophy className="mr-1.5 h-4 w-4" /> View on leaderboard
+                  </Link>
+                </Button>
+              ) : (
+                <Button
+                  variant="secondary"
+                  className="col-span-2"
+                  disabled={saving}
+                  onClick={() => void saveToLeaderboard()}
+                >
+                  <Trophy className="mr-1.5 h-4 w-4" />
+                  {saving ? "Saving…" : "Save to leaderboard"}
+                </Button>
+              )}
             </motion.div>
           )}
 
@@ -439,6 +522,9 @@ function CgpaPage() {
                 className="overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-6 text-center"
               >
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Classmate</p>
+                {name.trim() && (
+                  <p className="mt-2 truncate text-base font-semibold">{name.trim()}</p>
+                )}
                 <p className="mt-1 text-[11px] uppercase tracking-wider text-muted-foreground">
                   1-2 Semester
                 </p>
@@ -446,8 +532,9 @@ function CgpaPage() {
                 <p className="mt-2 text-sm font-semibold uppercase tracking-wide">{reaction.mood}</p>
                 <p className="mt-1 text-xs text-muted-foreground">{sem.totalCredits} Credits</p>
                 <p className="mt-3 text-[11px] text-muted-foreground">
-                  No personal details are included.
+                  Only the name you typed is shared.
                 </p>
+
                 <Button size="sm" className="mt-4" onClick={share}>
                   <Share2 className="mr-1.5 h-4 w-4" /> Share card
                 </Button>
