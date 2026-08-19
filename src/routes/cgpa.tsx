@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence, useAnimationControls } from "framer-motion";
-import { Award, Pencil, RotateCcw, Share2, Sparkles, Target } from "lucide-react";
+import { Award, Pencil, RotateCcw, Share2, Sparkles, Target, Trophy } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { fadeUp } from "@/components/motion";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import { GRADE_ORDER, GRADE_POINTS, SEM_1_2, type Grade } from "@/data/grading";
 import {
   LOADER_LINES,
