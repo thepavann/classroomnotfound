@@ -157,9 +157,10 @@ function CgpaPage() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as { grades?: GradeMap; skip?: boolean };
+        const parsed = JSON.parse(raw) as { grades?: GradeMap; skip?: boolean; name?: string };
         if (parsed.grades) setGrades(parsed.grades);
         if (parsed.skip) setSkipAnim(true);
+        if (parsed.name) setName(parsed.name);
       }
     } catch {
       /* ignore */
@@ -168,11 +169,11 @@ function CgpaPage() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ grades, skip: skipAnim }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ grades, skip: skipAnim, name }));
     } catch {
       /* ignore */
     }
-  }, [grades, skipAnim]);
+  }, [grades, skipAnim, name]);
 
   const result = useMemo(() => computeSgpa(sem.courses, grades), [sem.courses, grades]);
   const reaction = reactionFor(result.sgpa);
