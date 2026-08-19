@@ -146,6 +146,9 @@ function CgpaPage() {
   const [loaderLine, setLoaderLine] = useState(LOADER_LINES[0]);
   const [skipAnim, setSkipAnim] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [name, setName] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [savedId, setSavedId] = useState<string | null>(null);
   const revealedFor = useRef<string | null>(null);
   const shake = useAnimationControls();
   const gradesRef = useRef<HTMLDivElement>(null);
