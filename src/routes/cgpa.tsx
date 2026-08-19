@@ -310,6 +310,26 @@ function CgpaPage() {
         </div>
       }
     >
+      <motion.div
+        variants={fadeUp}
+        className="mb-6 rounded-2xl border border-border/60 bg-card/60 p-4 sm:p-5"
+      >
+        <label htmlFor="student-name" className="text-sm font-semibold">
+          Your name
+        </label>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Used on your result card and the leaderboard. Optional until you save.
+        </p>
+        <Input
+          id="student-name"
+          value={name}
+          maxLength={40}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="e.g. Pavan"
+          className="mt-3"
+        />
+      </motion.div>
+
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         {/* Subjects */}
         <motion.div
@@ -320,12 +340,13 @@ function CgpaPage() {
             phase === "loading" && !skipAnim && "pointer-events-none blur-[2px] opacity-60",
           )}
         >
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-lg font-semibold">Subjects</h2>
             <span className="text-sm text-muted-foreground">
               {result.distribution.reduce((a, d) => a + d.count, 0)}/{sem.courses.length} graded
             </span>
           </div>
+
 
           <div className="divide-y divide-border/60">
             {sem.courses.map((c) => (
