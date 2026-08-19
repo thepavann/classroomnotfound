@@ -28,6 +28,7 @@ const links = [
 const academicsLinks = [
   { to: "/attendance", label: "Attendance" },
   { to: "/cgpa", label: "CGPA Calculator" },
+  { to: "/leaderboard", label: "Leaderboard" },
 ] as const;
 
 
