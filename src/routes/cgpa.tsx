@@ -330,13 +330,13 @@ function CgpaPage() {
         />
       </motion.div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         {/* Subjects */}
         <motion.div
           ref={gradesRef}
           variants={fadeUp}
           className={cn(
-            "rounded-2xl border border-border/60 bg-card/60 p-4 transition-all sm:p-6",
+            "min-w-0 rounded-2xl border border-border/60 bg-card/60 p-4 transition-all sm:p-6",
             phase === "loading" && !skipAnim && "pointer-events-none blur-[2px] opacity-60",
           )}
         >
