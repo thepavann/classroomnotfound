@@ -493,6 +493,23 @@ function CgpaPage() {
               <Button className="col-span-2" onClick={() => setShowShare((s) => !s)}>
                 <Share2 className="mr-1.5 h-4 w-4" /> Share Result
               </Button>
+              {savedId ? (
+                <Button variant="outline" className="col-span-2" asChild>
+                  <Link to="/leaderboard">
+                    <Trophy className="mr-1.5 h-4 w-4" /> View on leaderboard
+                  </Link>
+                </Button>
+              ) : (
+                <Button
+                  variant="secondary"
+                  className="col-span-2"
+                  disabled={saving}
+                  onClick={() => void saveToLeaderboard()}
+                >
+                  <Trophy className="mr-1.5 h-4 w-4" />
+                  {saving ? "Saving…" : "Save to leaderboard"}
+                </Button>
+              )}
             </motion.div>
           )}
 
