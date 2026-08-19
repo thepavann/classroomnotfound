@@ -235,10 +235,44 @@ function CgpaPage() {
     setGrades({});
     revealedFor.current = null;
     setPhase("idle");
+    setSavedId(null);
     gradesRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const shareText = `CLASSMATE\n1-2 SEMESTER\nSGPA ${fmt2(result.sgpa)}\n${reaction.mood.toUpperCase()}\n${sem.totalCredits} Credits`;
+  useEffect(() => {
+    setSavedId(null);
+  }, [signature]);
+
+  const saveToLeaderboard = async () => {
+    const trimmed = name.trim();
+    if (trimmed.length < 2) {
+      toast.error("Add your name first (at least 2 characters)");
+      return;
+    }
+    setSaving(true);
+    const { data: auth } = await supabase.auth.getUser();
+    const { data, error } = await supabase
+      .from("cgpa_results")
+      .insert({
+        name: trimmed,
+        semester: "1-2",
+        sgpa: Number(result.sgpa.toFixed(2)),
+        credits: result.credits,
+        grade_points: Math.round(result.gradePoints * 100) / 100,
+        user_id: auth.user?.id ?? null,
+      })
+      .select("id")
+      .single();
+    setSaving(false);
+    if (error) {
+      toast.error("Couldn't save your result. Try again.");
+      return;
+    }
+    setSavedId(data.id);
+    toast.success("Saved to the leaderboard 🏆");
+  };
+
+  const shareText = `CLASSMATE\n1-2 SEMESTER\n${name.trim() ? `${name.trim().toUpperCase()}\n` : ""}SGPA ${fmt2(result.sgpa)}\n${reaction.mood.toUpperCase()}\n${sem.totalCredits} Credits`;
 
   const share = async () => {
     try {
@@ -261,12 +295,17 @@ function CgpaPage() {
       title="CGPA Calculator"
       description={`${sem.year} · ${sem.semester} · ${sem.totalCredits} credits. Pick a grade for each subject — your SGPA updates instantly.`}
       action={
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button variant="outline" size="sm" onClick={() => setSkipAnim((s) => !s)}>
             {skipAnim ? "Animations off" : "Skip animation"}
           </Button>
           <Button variant="ghost" size="sm" onClick={reset}>
             <RotateCcw className="mr-1.5 h-4 w-4" /> Reset
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/leaderboard">
+              <Trophy className="mr-1.5 h-4 w-4" /> Leaderboard
+            </Link>
           </Button>
         </div>
       }
