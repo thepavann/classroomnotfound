@@ -522,6 +522,9 @@ function CgpaPage() {
                 className="overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-6 text-center"
               >
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Classmate</p>
+                {name.trim() && (
+                  <p className="mt-2 truncate text-base font-semibold">{name.trim()}</p>
+                )}
                 <p className="mt-1 text-[11px] uppercase tracking-wider text-muted-foreground">
                   1-2 Semester
                 </p>
@@ -529,8 +532,9 @@ function CgpaPage() {
                 <p className="mt-2 text-sm font-semibold uppercase tracking-wide">{reaction.mood}</p>
                 <p className="mt-1 text-xs text-muted-foreground">{sem.totalCredits} Credits</p>
                 <p className="mt-3 text-[11px] text-muted-foreground">
-                  No personal details are included.
+                  Only the name you typed is shared.
                 </p>
+
                 <Button size="sm" className="mt-4" onClick={share}>
                   <Share2 className="mr-1.5 h-4 w-4" /> Share card
                 </Button>
