@@ -83,7 +83,7 @@ function TimetablePage() {
                   key={c.id}
                   ref={isLive ? undefined : undefined}
                   className={cn(
-                    "rounded-2xl transition-all",
+                    "min-w-0 rounded-2xl transition-all",
                     isLive && "ring-2 ring-primary/50 ring-offset-2 ring-offset-background",
                   )}
                 >

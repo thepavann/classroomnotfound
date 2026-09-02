@@ -38,10 +38,10 @@ export function GlobalSearch() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground md:w-56"
+        className="flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground xl:w-56"
       >
         <Search className="h-4 w-4 shrink-0" />
-        <span className="hidden md:inline">Search…</span>
+        <span className="hidden xl:inline">Search…</span>
       </button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
